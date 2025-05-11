@@ -1,62 +1,37 @@
-# Cell Segmentation and Tracking using CNN-Based Distance Predictions and a Graph-Based Matching Strategy #
+# Contexto del Proyecto
+Este repositorio se basa en el código para un método de segmentación y seguimiento de células desarrollado en el Karlsruhe Institute of Technology (KIT), específicamente por el equipo KIT-Sch-GE. El enfoque se basa en predicciones de distancia mediante Redes Neuronales Convolucionales (CNN) y una estrategia de emparejamiento basada en grafos para el seguimiento. Este trabajo fue la base de una participación en la 5ª edición del ISBI Cell Tracking Challenge en 2020 y ha sido publicado.
 
-Segmentation and tracking method used for our [publication](#markdown-header-publication). Our submission to the 5th edition of the [ISBI Cell Tracking Challenge](http://celltrackingchallenge.net/) 2020 is based on this code (Team KIT-Sch-GE).
+# Segmentación y Seguimiento Celular usando Predicciones de Distancia Basadas en CNN y una Estrategia de Emparejamiento Basada en Grafos
 
-An improved version of the segmentation (slightly adjusted scaling & closing for the neighbor distances, training process, batch size > 1 & multi-GPU support for inference) can be found here: [https://git.scc.kit.edu/KIT-Sch-GE](https://git.scc.kit.edu/KIT-Sch-GE).
+Método de segmentación y seguimiento utilizado para nuestra [publicación](#publicación). Nuestra participación en la 5ª edición del [ISBI Cell Tracking Challenge](http://celltrackingchallenge.net/) 2020 se basa en este código (Equipo KIT-Sch-GE).
 
-## Prerequisites
-* [Anaconda Distribution](https://www.anaconda.com/products/individual)
-* A CUDA capable GPU
-* Minimum / recommended RAM: 16 GiB / 32 GiB
-* Minimum / recommended VRAM: 12 GiB / 24 GiB
+Una versión mejorada de la segmentación (escalado y cierre ligeramente ajustados para las distancias a vecinos, proceso de entrenamiento, tamaño de lote > 1 y soporte multi-GPU para inferencia) se puede encontrar aquí: [https://git.scc.kit.edu/KIT-Sch-GE](https://git.scc.kit.edu/KIT-Sch-GE).
 
-## Installation
-Clone the Cell Segmentation and Tracking repository:
+## Prerrequisitos
+* [Distribución Anaconda](https://www.anaconda.com/products/individual)
+* Una GPU compatible con CUDA
+* RAM mínima / recomendada: 16 GiB / 32 GiB
+* VRAM mínima / recomendada: 12 GiB / 24 GiB
+
+## Instalación
+Clona el repositorio Cell Tracking:
 ```
-git clone https://bitbucket.org/t_scherr/cell-segmentation-and-tracking 
+git clone https://bitbucket.org/t_scherr/cell-segmentation-and-tracking
 ```
-Open the Anaconda Prompt (Windows) or the Terminal (Linux), go to the Cell Segmentation and Tracking repository and create a new virtual environment:
+Abre Anaconda Prompt (Windows) o la Terminal (Linux), ve al repositorio Cell Segmentation and Tracking y crea un nuevo entorno virtual:
 ```
-cd path_to_the_cloned_repository
+cd ruta_al_repositorio_clonado
 conda env create -f requirements.yml
 ```
-Activate the virtual environment cell_segmentation_and_tracking_ve:
+Activa el entorno virtual cell_segmentation_and_tracking_ve:
 ```
 conda activate cell_segmentation_and_tracking_ve
 ```
 
-## Segmentation
-In this section, it is described how to reproduce the segmentation results of our [publication](#markdown-header-publication). Download the Cell Tracking Challenge training data sets [BF-C2DL-HSC](http://data.celltrackingchallenge.net/training-datasets/BF-C2DL-HSC.zip), [BF-C2DL-MuSC](http://data.celltrackingchallenge.net/training-datasets/BF-C2DL-MuSC.zip), [Fluo-N2DL-HeLa](http://data.celltrackingchallenge.net/training-datasets/Fluo-N2DL-HeLa.zip), and [Fluo-N3DH-CE](http://data.celltrackingchallenge.net/training-datasets/Fluo-N3DH-CE.zip). Unzip the data sets into the folder *datasets*. Download the [evaluation software](http://public.celltrackingchallenge.net/software/EvaluationSoftware.zip) from the Cell Tracking Challenge and unzip it in the repository. To train on your own data, our implemented Pytorch Dataset can be used but the training data need to be of similar shape. In addition, the inference function needs to be adapted.
-
-### CTC Training Set
-After downloading the required Cell Tracking Challenge data, the CTC Training Set can be created with:
-```
-python cell_segmentation.py --create_ctc_set
-```
-
-### Train Segmentation Models
-The models specified in the file *segmentation_settings.json* can be trained on the CTC Training Set with:
-```
-python cell_segmentation.py --train
-```
-
-### Evaluate Models
-Trained Models can be evaluated on the test sets with:
-```
-python cell_segmentation.py --evaluate
-```
-
-### Plot Results
-Boxplots and exemplary crops of the best models of each method (for each cell type) can be created with:
-```
-python cell_segmentation.py --plot
-```
-Note: the number of iterations/initializations/models of each method needs to be odd.
-
 ## Tracking
-This section describes how to reproduce the tracking results of our [publication](#markdown-header-publication).
+Esta sección describe cómo reproducir los resultados de seguimiento de nuestra [publicación](#publicación).
 
-It is assumed the data set follows the same folder structure and file naming as the CTC data sets:
+Se asume que el conjunto de datos sigue la misma estructura de carpetas y nomenclatura de archivos que los conjuntos de datos CTC:
 ```
 dataset
 └───01
@@ -66,19 +41,47 @@ dataset
 └───02_GT
 └───02_RES
 ```
-First, run a segmentation approach to derive segmentation masks for dataset/0x, where x is either 1 or 2.
-The tracking with the same parametrization as in the paper can be derived by executing:
+Primero, ejecuta un enfoque de segmentación para derivar máscaras de segmentación para dataset/0x, donde x es 1 o 2.
+El seguimiento con la misma parametrización que en el artículo se puede derivar ejecutando:
 ```
-python run_tracking.py img_path segm_path res_path
+python run_tracking.py ruta_img ruta_segm ruta_res
 ```
-where img_path is the path to the folder dataset/0x and segm_path the path to the folder containing the segmentation masks. The resulting tracking masks and lineage file will be stored in res_path.
-If segm_path and res_path are the same path, the segmentation masks will be replaced by the tracking masks.
+donde `ruta_img` es la ruta a la carpeta dataset/0x y `ruta_segm` la ruta a la carpeta que contiene las máscaras de segmentación. Las máscaras de seguimiento resultantes y el archivo de linaje se almacenarán en `ruta_res`.
+Si `ruta_segm` y `ruta_res` son la misma ruta, las máscaras de segmentación serán reemplazadas por las máscaras de seguimiento.
 
+## Visualización de resultados
+Esta sección describe cómo visualizar los resultados del seguimiento y las trayectorias.
 
+### Visualizar Máscaras de Seguimiento
+Para visualizar las máscaras de seguimiento generadas (archivos `maskXXX.tif` en la carpeta de resultados):
+```
+python visualize_tracking.py ruta_a_tus_resultados_RES [--save ruta_directorio_salida]
+```
+*   `ruta_a_tus_resultados_RES`: Ruta a la carpeta que contiene los archivos `maskXXX.tif` (por ejemplo, `datasets/BF-C2DL-HSC/01_RES`).
+*   `--save ruta_directorio_salida` (opcional): Directorio donde se guardarán las imágenes de visualización. Si no se especifica, se creará un directorio llamado `visualized_tracking_NOMBRE-DATASET_NOMBRE-SECUENCIA` en la ubicación actual.
 
+Ejemplo:
+```
+python visualize_tracking.py datasets/BF-C2DL-HSC/01_RES --save visualizaciones/BF-C2DL-HSC_01_tracking
+```
 
-## Publication ##
+### Visualizar Trayectorias
+Para visualizar las trayectorias de las células superpuestas en las imágenes originales:
+```
+python visualize_trajectories.py ruta_imagenes_originales ruta_a_tus_resultados_RES [--save ruta_directorio_salida] [--length N]
+```
+*   `ruta_imagenes_originales`: Ruta a la carpeta que contiene la secuencia de imágenes originales (por ejemplo, `datasets/BF-C2DL-HSC/01`).
+*   `ruta_a_tus_resultados_RES`: Ruta a la carpeta que contiene los archivos `maskXXX.tif` (por ejemplo, `datasets/BF-C2DL-HSC/01_RES`).
+*   `--save ruta_directorio_salida` (opcional): Directorio donde se guardarán las imágenes de visualización. Si no se especifica, se creará un directorio llamado `visualized_trajectories_NOMBRE-DATASET_NOMBRE-SECUENCIA` en la ubicación actual.
+*   `--length N` (opcional): Número de fotogramas pasados para dibujar en la trayectoria. Por defecto es 15.
+
+Ejemplo:
+```
+python visualize_trajectories.py datasets/BF-C2DL-HSC/01 datasets/BF-C2DL-HSC/01_RES --save visualizaciones/BF-C2DL-HSC_01_trajectories --length 10
+```
+
+## Publicación
 T. Scherr, K. Löffler, M. Böhland, and R. Mikut (2020). Cell Segmentation and Tracking using CNN-Based Distance Predictions and a Graph-Based Matching Strategy. PLoS ONE 15(12). DOI: [10.1371/journal.pone.0243219](https://doi.org/10.1371/journal.pone.0243219).
 
-## License ##
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+## Licencia
+Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo [LICENSE.md](LICENSE.md) para más detalles.

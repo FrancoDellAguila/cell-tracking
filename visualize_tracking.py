@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 from tifffile import imread
@@ -64,11 +66,30 @@ def view_tracking(results_path, save_dir=None):
     # Crear mapa de colores personalizado con los colores fijos
     custom_cmap = ListedColormap(colors)
     
-    # Crear directorio de guardado si es necesario
+    # Determinar identificadores de dataset y secuencia para nombres
+    # Si results_path es "D:\cell-tracking\datasets\BF-C2DL-HSC\01_RES"
+    # dataset_folder_name será "BF-C2DL-HSC"
+    # sequence_results_name será "01_RES"
+    dataset_folder_name = results_path.parent.name  
+    sequence_results_name = results_path.name       
+    descriptive_name_part = f"{dataset_folder_name}_{sequence_results_name}"
+
+    save_to_path = None # Variable que ya usas para la ruta de guardado
+    image_prefix = ""   # Variable que ya usas para el prefijo
+
     if save_dir:
-        save_dir_path = Path(save_dir)
-        os.makedirs(save_dir_path, exist_ok=True)
-        print(f"Guardando imágenes en: {save_dir_path}")
+        save_to_path = Path(save_dir)
+        # El prefijo es la parte descriptiva. El guion bajo se añade en la f-string de output_file.
+        image_prefix = descriptive_name_part 
+    else:
+        # El nombre del directorio por defecto usa la parte descriptiva, sin marca de tiempo.
+        default_dir_name = f"visualized_tracking_{descriptive_name_part}"
+        save_to_path = Path(default_dir_name)
+        # image_prefix permanece "" si no hay save_dir, resultando en "_tracking_frame..."
+        # debido a la f-string existente para output_file.
+
+    os.makedirs(save_to_path, exist_ok=True)
+    print(f"Guardando imágenes en: {save_to_path}")
     
     # Procesar cada fotograma
     for i, mask_file in enumerate(mask_files):
@@ -80,7 +101,7 @@ def view_tracking(results_path, save_dir=None):
             
             print(f"Procesando fotograma {i+1}, forma: {mask.shape}, IDs de célula: {unique_ids_no_bg[:5]}...")
             
-            fig, ax = plt.subplots(figsize=(12, 10)) # Crear figura y ejes
+            fig, ax = plt.subplots(figsize=(12, 10)) 
             
             # Mostrar la máscara con colores consistentes
             # vmax asegura que la escala de colores sea consistente
@@ -113,21 +134,15 @@ def view_tracking(results_path, save_dir=None):
                               title="IDs de Célula")
             
             ax.set_title(f'Fotograma {i+1}')
-            ax.axis('off') # Ocultar ejes
+            ax.axis('off')
             
-            if save_dir:
-                output_file = os.path.join(save_dir, f'tracking_frame_{i+1:03d}.png')
-                plt.savefig(output_file, bbox_inches='tight') # bbox_inches='tight' ajusta el guardado
-                print(f"  Guardado en {output_file}")
-                plt.close(fig) # Cerrar la figura para liberar memoria
-            else:
-                plt.tight_layout() # Ajustar diseño antes de mostrar
-                plt.show(block=True) # Mostrar la figura y esperar
-                input("Presiona Enter para el siguiente fotograma...") # Pausar hasta que el usuario presione Enter
-                plt.close(fig) # Cerrar la figura
+            output_file = save_to_path / f'{image_prefix}_tracking_frame_{i+1:03d}.png'
+            plt.savefig(output_file, bbox_inches='tight')
+            print(f"  Guardado en {output_file.name}")
+            plt.close(fig) # Cerrar la figura para liberar memoria
         except Exception as e:
             print(f"Error procesando {mask_file}: {e}")
-            if 'fig' in locals() and plt.fignum_exists(fig.number): # Asegurarse de que fig existe antes de cerrar
+            if 'fig' in locals() and plt.fignum_exists(fig.number): 
                  plt.close(fig)
 
     print("Visualización completada.")
