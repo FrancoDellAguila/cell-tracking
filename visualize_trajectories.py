@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg') 
 import matplotlib.pyplot as plt
 import numpy as np
 from tifffile import imread
@@ -6,7 +8,6 @@ import os
 import sys
 from scipy.ndimage import center_of_mass
 import matplotlib.colors as mcolors
-from datetime import datetime # Asegúrate de que esta importación esté presente
 
 def visualize_trajectories(img_path, results_path, save_dir=None, trajectory_length=15):
     """
@@ -18,8 +19,8 @@ def visualize_trajectories(img_path, results_path, save_dir=None, trajectory_len
         save_dir: Opcional. Ruta para guardar los fotogramas como imágenes.
         trajectory_length: Número de fotogramas pasados para dibujar en la trayectoria.
     """
-    img_path_obj = Path(img_path) # Renombrado para claridad, o puedes seguir usando img_path
-    results_path_obj = Path(results_path) # Renombrado para claridad
+    img_path_obj = Path(img_path) 
+    results_path_obj = Path(results_path) 
     print(f"Buscando imágenes originales en: {img_path_obj}")
     print(f"Buscando archivos de máscara en: {results_path_obj}")
     
@@ -99,29 +100,19 @@ def visualize_trajectories(img_path, results_path, save_dir=None, trajectory_len
         except Exception as e:
             print(f"Advertencia: No se pudieron calcular centroides para {mask_file.name}: {e}")
 
-    # Determinar identificadores de dataset y secuencia para nombres
-    # Si img_path_obj es "D:\cell-tracking\datasets\BF-C2DL-HSC\01"
-    # dataset_folder_name será "BF-C2DL-HSC"
-    # sequence_folder_name será "01"
     dataset_folder_name = img_path_obj.parent.name  
     sequence_folder_name = img_path_obj.name       
     descriptive_name_part = f"{dataset_folder_name}_{sequence_folder_name}"
 
     final_save_path = None
-    output_image_prefix = ""
+    filename_prefix_str = "" 
 
-    if save_dir: # Si el usuario proporcionó un directorio
+    if save_dir: 
         final_save_path = Path(save_dir)
-        # Prefijar imágenes con el nombre descriptivo para distinguir si múltiples datasets/secuencias
-        # se guardan en el mismo directorio personalizado.
-        output_image_prefix = f"{descriptive_name_part}_" 
-    else: # Si el usuario no proporcionó un directorio, crear uno por defecto
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        # El nombre del directorio por defecto incluye la parte descriptiva y la marca de tiempo para unicidad.
-        default_output_dir_name = f"visualized_trajectories_{descriptive_name_part}_{timestamp}"
+        filename_prefix_str = f"{descriptive_name_part}_" # Incluye el guion bajo
+    else: 
+        default_output_dir_name = f"visualized_trajectories_{descriptive_name_part}" 
         final_save_path = Path(default_output_dir_name)
-        # No se necesita prefijo para las imágenes si el nombre del directorio ya es único y por defecto.
-        # output_image_prefix permanece ""
 
     os.makedirs(final_save_path, exist_ok=True)
     print(f"Guardando imágenes de trayectoria en: {final_save_path}")
@@ -165,9 +156,9 @@ def visualize_trajectories(img_path, results_path, save_dir=None, trajectory_len
                     y_coords = [c[2] for c in trajectory_points]
                     
                     num_segments = len(trajectory_points) - 1
-                    for i in range(num_segments):
-                        alpha = 0.2 + 0.8 * ((i + 1) / num_segments)
-                        ax.plot(x_coords[i:i+2], y_coords[i:i+2], 
+                    for i_segment in range(num_segments): 
+                        alpha = 0.2 + 0.8 * ((i_segment + 1) / num_segments)
+                        ax.plot(x_coords[i_segment:i_segment+2], y_coords[i_segment:i_segment+2], 
                                  color=colors[int(cell_id)], linewidth=1.8, 
                                  alpha=alpha,
                                  solid_capstyle='round') 
@@ -184,8 +175,10 @@ def visualize_trajectories(img_path, results_path, save_dir=None, trajectory_len
             ax.set_title(f'Fotograma {frame_idx+1} / {min_frames}')
             ax.axis('off')
             
-            output_file = final_save_path / f'{output_image_prefix}trayectoria_{frame_idx+1:04d}.png'
-            plt.savefig(output_file, bbox_inches='tight', dpi=120)
+            output_filename = f'{filename_prefix_str}trayectoria_{frame_idx+1:04d}.png'
+            output_file_path = final_save_path / output_filename
+            plt.savefig(output_file_path, bbox_inches='tight', dpi=120)
+
             plt.close(fig) 
         except Exception as e:
             print(f"ERROR procesando fotograma {frame_idx}: {e}")
@@ -204,6 +197,4 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
-    # Usar img_path_obj y results_path_obj si cambiaste los nombres de las variables arriba
-    # o simplemente pasar args.img_path y args.results_path si no los cambiaste.
     visualize_trajectories(args.img_path, args.results_path, args.output_dir, args.length)

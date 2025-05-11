@@ -1,4 +1,4 @@
-name: cell_segmentation_and_tracking_ve
+name: cell_segmentation_and_tracking_ve3
 channels:
   - pytorch
   - conda-forge
@@ -13,7 +13,7 @@ dependencies:
   - ipython
   - mahotas
   - matplotlib
-  - numpy=1.19
+  - numpy=1.23
   - opencv
   - openh264
   - pandas=1.2.5

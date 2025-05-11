@@ -14,7 +14,7 @@ La versión original de la segmentación y el tracking se puede encontrar aquí:
 ## Instalación
 Clona el repositorio Cell Tracking:
 ```
-git clone https://bitbucket.org/t_scherr/cell-segmentation-and-tracking
+git clone https://github.com/FrancoDellAguila/cell-tracking
 ```
 Abre Anaconda Prompt (Windows) o la Terminal (Linux), ve al repositorio Cell Segmentation and Tracking y crea un nuevo entorno virtual:
 ```
@@ -27,7 +27,7 @@ conda activate cell_segmentation_and_tracking_ve
 ```
 
 ## Tracking
-Esta sección describe cómo reproducir los resultados de seguimiento de nuestra [publicación](#publicación).
+Esta sección describe cómo reproducir los resultados de seguimiento de la [publicación](#publicación).
 
 Se asume que el conjunto de datos sigue la misma estructura de carpetas y nomenclatura de archivos que los conjuntos de datos CTC:
 ```
