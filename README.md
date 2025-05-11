@@ -1,5 +1,5 @@
 # Contexto del Proyecto
-Este repositorio se basa en el código para un método de segmentación y seguimiento de células desarrollado en el Karlsruhe Institute of Technology (KIT), específicamente por el equipo KIT-Sch-GE. El enfoque se basa en predicciones de distancia mediante Redes Neuronales Convolucionales (CNN) y una estrategia de emparejamiento basada en grafos para el seguimiento. Este trabajo fue la base de una participación en la 5ª edición del [ISBI Cell Tracking Challenge](http://celltrackingchallenge.net/) en 2020 y ha sido publicado.
+Este repositorio se basa en el código para un método de segmentación y seguimiento de células desarrollado en el Karlsruhe Institute of Technology (KIT), específicamente por el equipo KIT-Sch-GE. El enfoque se basa en predicciones de distancia mediante Redes Neuronales Convolucionales (CNN) y una estrategia de emparejamiento basada en grafos para el seguimiento. Este trabajo fue la base de una participación en la 5ª edición del [ISBI Cell Tracking Challenge](http://celltrackingchallenge.net/) en 2020 y ha sido publicado en [10.1371/journal.pone.0243219](https://doi.org/10.1371/journal.pone.0243219).
 
 # Segmentación y Seguimiento Celular usando Predicciones de Distancia Basadas en CNN y una Estrategia de Emparejamiento Basada en Grafos
 

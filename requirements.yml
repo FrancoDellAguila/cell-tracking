@@ -1,4 +1,4 @@
-name: cell_segmentation_and_tracking_ve3
+name: cell_segmentation_and_tracking_ve
 channels:
   - pytorch
   - conda-forge

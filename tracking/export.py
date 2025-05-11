@@ -112,7 +112,10 @@ class ExportResults:
 
             file_name = ''.join([self.img_file_name, str(time).zfill(z_fill), self.img_file_ending])
             imsave(os.path.join(export_dir, file_name),
-                   all_tracking_masks, compress=3,bigtiff=True)
+                   all_tracking_masks,
+                   compression='zlib', 
+                   compressionargs={'level': 3}, 
+                   bigtiff=True)
 
 
 def remove_short_tracks(all_tracks):
