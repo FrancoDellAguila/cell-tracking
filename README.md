@@ -1,11 +1,9 @@
 # Contexto del Proyecto
-Este repositorio se basa en el código para un método de segmentación y seguimiento de células desarrollado en el Karlsruhe Institute of Technology (KIT), específicamente por el equipo KIT-Sch-GE. El enfoque se basa en predicciones de distancia mediante Redes Neuronales Convolucionales (CNN) y una estrategia de emparejamiento basada en grafos para el seguimiento. Este trabajo fue la base de una participación en la 5ª edición del ISBI Cell Tracking Challenge en 2020 y ha sido publicado.
+Este repositorio se basa en el código para un método de segmentación y seguimiento de células desarrollado en el Karlsruhe Institute of Technology (KIT), específicamente por el equipo KIT-Sch-GE. El enfoque se basa en predicciones de distancia mediante Redes Neuronales Convolucionales (CNN) y una estrategia de emparejamiento basada en grafos para el seguimiento. Este trabajo fue la base de una participación en la 5ª edición del [ISBI Cell Tracking Challenge](http://celltrackingchallenge.net/) en 2020 y ha sido publicado.
 
 # Segmentación y Seguimiento Celular usando Predicciones de Distancia Basadas en CNN y una Estrategia de Emparejamiento Basada en Grafos
 
-Método de segmentación y seguimiento utilizado para nuestra [publicación](#publicación). Nuestra participación en la 5ª edición del [ISBI Cell Tracking Challenge](http://celltrackingchallenge.net/) 2020 se basa en este código (Equipo KIT-Sch-GE).
-
-Una versión mejorada de la segmentación (escalado y cierre ligeramente ajustados para las distancias a vecinos, proceso de entrenamiento, tamaño de lote > 1 y soporte multi-GPU para inferencia) se puede encontrar aquí: [https://git.scc.kit.edu/KIT-Sch-GE](https://git.scc.kit.edu/KIT-Sch-GE).
+La versión original de la segmentación y el tracking se puede encontrar aquí: [https://bitbucket.org/t_scherr/cell-segmentation-and-tracking/src/master/](https://bitbucket.org/t_scherr/cell-segmentation-and-tracking/src/master/).
 
 ## Prerrequisitos
 * [Distribución Anaconda](https://www.anaconda.com/products/individual)
