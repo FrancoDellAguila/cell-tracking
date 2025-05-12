@@ -74,15 +74,13 @@ def view_tracking(results_path, save_dir=None):
     sequence_results_name = results_path.name       
     descriptive_name_part = f"{dataset_folder_name}_{sequence_results_name}"
 
-    save_to_path = None # Variable que ya usas para la ruta de guardado
-    image_prefix = ""   # Variable que ya usas para el prefijo
+    save_to_path = None 
+    image_prefix = ""   
 
     if save_dir:
         save_to_path = Path(save_dir)
-        # El prefijo es la parte descriptiva. El guion bajo se añade en la f-string de output_file.
         image_prefix = descriptive_name_part 
     else:
-        # El nombre del directorio por defecto usa la parte descriptiva, sin marca de tiempo.
         default_dir_name = f"visualized_tracking_{descriptive_name_part}"
         save_to_path = Path(default_dir_name)
         # image_prefix permanece "" si no hay save_dir, resultando en "_tracking_frame..."
