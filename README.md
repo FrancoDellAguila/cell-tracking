@@ -62,6 +62,15 @@ Ejemplo:
 ```
 python visualize_tracking.py datasets/BF-C2DL-HSC/01_RES --save visualizaciones/BF-C2DL-HSC_01_tracking
 ```
+<p align="center">
+  <img src="Fluo-N2DL-HeLa_01_RES_tracking_frame_092.png" alt="Visualizar Trayectorias" width="100%">
+</p>
+<p align="center">
+  <img src="Fluo-N2DH-SIM+_01_RES_tracking_frame_065.png" alt="Visualizar Trayectorias" width="100%">
+</p>
+<p align="center">
+  <img src="Fluo-N2DH-GOWT1_01_RES_tracking_frame_092.png" alt="Visualizar Trayectorias" width="100%">
+</p>
 
 ### Visualizar Trayectorias
 Para visualizar las trayectorias de las células superpuestas en las imágenes originales:
@@ -72,6 +81,15 @@ python visualize_trajectories.py ruta_imagenes_originales ruta_a_tus_resultados_
 *   `ruta_a_tus_resultados_RES`: Ruta a la carpeta que contiene los archivos `maskXXX.tif` (por ejemplo, `datasets/BF-C2DL-HSC/01_RES`).
 *   `--save ruta_directorio_salida` (opcional): Directorio donde se guardarán las imágenes de visualización. Si no se especifica, se creará un directorio llamado `visualized_trajectories_NOMBRE-DATASET_NOMBRE-SECUENCIA` en la ubicación actual.
 *   `--length N` (opcional): Número de fotogramas pasados para dibujar en la trayectoria. Por defecto es 15.
+<p align="center">
+  <img src="Fluo-N2DL-HeLa_01_trayectoria_0092.png" alt="Visualizar Trayectorias" width="100%">
+</p>
+<p align="center">
+  <img src="Fluo-N2DH-SIM+_01_trayectoria_0065.png" alt="Visualizar Trayectorias" width="100%">
+</p>
+<p align="center">
+  <img src="Fluo-N2DH-GOWT1_01_trayectoria_0092.png" alt="Visualizar Trayectorias" width="100%">
+</p>
 
 Ejemplo:
 ```
